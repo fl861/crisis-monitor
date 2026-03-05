@@ -99,7 +99,7 @@ export default function FrameworkPanel() {
 
         <AccordionSection
           title={fw.structuralHomogeneity.name}
-          subtitle="量化趋同与"机器抱团""
+          subtitle={'量化趋同与\u201C机器抱团\u201D'}
         >
           <p className="text-sm text-gray-400 mb-3">{fw.structuralHomogeneity.description}</p>
           <div className="px-3 py-2.5 rounded-lg bg-dark-bg/60 text-sm text-gray-300">
