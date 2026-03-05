@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-gray-100 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .indicator-card {
+    @apply bg-dark-card border border-dark-border rounded-xl p-5 transition-all duration-300 hover:border-gray-500;
+  }
+
+  .status-dot {
+    @apply w-3 h-3 rounded-full inline-block mr-2;
+  }
+
+  .crisis-phase-card {
+    @apply relative bg-dark-card border-l-4 rounded-r-xl p-5 mb-4 transition-all duration-300;
+  }
+
+  .gauge-ring {
+    transition: stroke-dashoffset 1s ease-in-out;
+  }
+
+  .timeline-connector {
+    @apply absolute left-0 top-full w-0.5 h-4 bg-dark-border;
+    margin-left: 1.5rem;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1E293B;
+}
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+/* Glow effects for critical alerts */
+.glow-red {
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.4), 0 0 30px rgba(220, 38, 38, 0.1);
+}
+.glow-orange {
+  box-shadow: 0 0 15px rgba(234, 88, 12, 0.4), 0 0 30px rgba(234, 88, 12, 0.1);
+}
+.glow-yellow {
+  box-shadow: 0 0 15px rgba(202, 138, 4, 0.3), 0 0 30px rgba(202, 138, 4, 0.1);
+}
+.glow-green {
+  box-shadow: 0 0 15px rgba(22, 163, 74, 0.3), 0 0 30px rgba(22, 163, 74, 0.1);
+}
