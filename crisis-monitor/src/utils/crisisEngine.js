@@ -19,14 +19,26 @@ export function assessIndicatorLevel(indicatorId, value) {
 
     const thresholds = indicator.thresholds;
 
-    // 判断是"越大越危险"还是"越小越危险"
+    // 判断阈值方向
     if (thresholds.normal?.max !== undefined) {
-      // 越大越危险（如bid_ask_spread）或越负越危险（如swap_spread）
-      if (value <= thresholds.normal.max) return { level: 'normal', ...thresholds.normal };
-      if (value <= thresholds.warning.max) return { level: 'warning', ...thresholds.warning };
-      if (value <= thresholds.elevated.max) return { level: 'elevated', ...thresholds.elevated };
-      if (thresholds.critical && value <= thresholds.critical.max) return { level: 'critical', ...thresholds.critical };
-      return { level: 'extreme', ...thresholds.extreme };
+      // 检查阈值是递增还是递减：
+      // 递增 (5, 15, 30...) → 越大越危险（如 bid_ask_spread）→ value <= max 判正常
+      // 递减 (-10, -20, -30...) → 越负越危险（如 swap_spread）→ value >= max 判正常
+      const isIncreasing = thresholds.normal.max < (thresholds.warning?.max ?? Infinity);
+
+      if (isIncreasing) {
+        if (value <= thresholds.normal.max) return { level: 'normal', ...thresholds.normal };
+        if (value <= thresholds.warning.max) return { level: 'warning', ...thresholds.warning };
+        if (value <= thresholds.elevated.max) return { level: 'elevated', ...thresholds.elevated };
+        if (thresholds.critical && value <= thresholds.critical.max) return { level: 'critical', ...thresholds.critical };
+        return { level: 'extreme', ...thresholds.extreme };
+      } else {
+        if (value >= thresholds.normal.max) return { level: 'normal', ...thresholds.normal };
+        if (value >= thresholds.warning.max) return { level: 'warning', ...thresholds.warning };
+        if (value >= thresholds.elevated.max) return { level: 'elevated', ...thresholds.elevated };
+        if (thresholds.critical && value >= thresholds.critical.max) return { level: 'critical', ...thresholds.critical };
+        return { level: 'extreme', ...thresholds.extreme };
+      }
     }
 
     if (thresholds.normal?.min !== undefined) {
